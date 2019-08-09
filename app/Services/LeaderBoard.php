@@ -91,6 +91,7 @@ class LeaderBoard
                     $result[$i] = $board[$i]; //currently logged in user
                     $result[$i + 1] = $board[$i + 1];
                 }
+                break;
             }
         }
 
