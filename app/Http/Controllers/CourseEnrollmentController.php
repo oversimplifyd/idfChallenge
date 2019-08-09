@@ -33,13 +33,13 @@ class CourseEnrollmentController extends Controller
                 ->findBy('slug', $slug) ??
             abort(Response::HTTP_NOT_FOUND, 'Course not found');
 
-        $enrollment = $this->courseEnrolmentRepo->getUserLessons($course->id, auth()->id);
+        $enrollment = $this->courseEnrolmentRepo->getUserLessons($course->id, auth()->user()->id);
 
         if ($enrollment === null) {
             return view('courses.show', ['course' => $course]);
         }
 
-        return view('courseEnrollments.show', ['enrollment' => $enrollment]);
+        return view('courseEnrollments.show', ['enrollment' => $enrollment, 'leaderboard' => $leaderBoard]);
     }
 
     public function store(string $slug)
@@ -72,6 +72,8 @@ class CourseEnrollmentController extends Controller
             }
         }
 
+        $result['neighbours'] = $this->getLoggedInUserPosition($courseUsers);
+
         return $result;
     }
 
@@ -99,6 +101,7 @@ class CourseEnrollmentController extends Controller
         $boardCount = count($board);
         $result = [];
         for ($i = 1; $i <= $count; $i++) {
+            $board[$boardCount -$i]->position = $boardCount -$i + 1;
             $result[] = $board[$boardCount - $i];
         }
 
@@ -114,6 +117,27 @@ class CourseEnrollmentController extends Controller
         $result = [];
         for ($i = 0; $i < $count; $i++) {
             $result[] = $board[$i];
+        }
+
+        return $this->reArrange($result);
+    }
+
+    private function getLoggedInUserPosition(array $board)
+    {
+        $boardCount = count($board);
+        $result = [];
+        for ($i = 0; $i < $boardCount; $i++) {
+            if ($board[$i]->userid === auth()->user()->id) {
+                if ($i > 0 && $i < $boardCount - 1) {
+                    $board[$i - 1]->position = $i -1;
+                    $board[$i]->position = $i;
+                    $board[$i + 1]->position = $i + 1;
+
+                    $result[$i - 1] = $board[$i - 1];
+                    $result[$i] = $board[$i]; //currently logged in user
+                    $result[$i + 1] = $board[$i + 1];
+                }
+            }
         }
 
         return $this->reArrange($result);

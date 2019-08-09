@@ -15,7 +15,7 @@ class CourseEnrollmentRepository extends Repo
 
     public function getUserLessons(int $courseId, int $userId)
     {
-        return ($this->model())
+        return $this->makeModel()
             ->where('course_id', $courseId)
             ->where('user_id', $userId)
             ->with('course.lessons')
