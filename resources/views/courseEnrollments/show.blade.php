@@ -36,6 +36,7 @@
                             <div class="col-md-6">
                                 {{--Replace this stub markup by your code--}}
                                 <ul style="padding: 0px;">
+                                    <span>List</span>
                                     @foreach ($leaderboard['list'] as $key => $userList)
                                         <li class="courseRanking__rankItem"
                                             style="display: flex; flex-direction: row; padding: 10px;">
@@ -58,6 +59,7 @@
                                         </li>
                                     @endforeach
                                     <br>
+                                    <span>Highest</span>
                                     @foreach ($leaderboard['highest'] as $key => $userList)
                                         <li class="courseRanking__rankItem"
                                             style="display: flex; flex-direction: row; padding: 10px;">
@@ -80,6 +82,7 @@
                                         </li>
                                     @endforeach
                                     <br>
+                                    <span>Lowest</span>
                                     @foreach ($leaderboard['lowest'] as $key => $userList)
                                         <li class="courseRanking__rankItem"
                                             style="display: flex; flex-direction: row; padding: 10px;">
@@ -102,6 +105,7 @@
                                         </li>
                                     @endforeach
                                     <br>
+                                    <span>Neighbours</span>
                                     @foreach ($leaderboard['neighbours'] as $key => $userList)
                                         <li class="courseRanking__rankItem"
                                             style="display: flex; flex-direction: row; padding: 10px;">
